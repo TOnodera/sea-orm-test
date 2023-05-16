@@ -1,0 +1,17 @@
+[package]
+name = "app"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[workspace]
+members = [".", "./entity", "./migration"]
+
+[dependencies]
+entity = { path = "./entity" }
+migration = { path = "./migration" }
+tokio = { version = "1.28.1", features = ["full"] }
+
+[dependencies.sea-orm]
+version = "^0.11"
