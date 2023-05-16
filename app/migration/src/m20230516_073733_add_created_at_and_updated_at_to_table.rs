@@ -1,4 +1,7 @@
+use entity::post;
 use sea_orm_migration::prelude::*;
+use sea_orm_migration::sea_orm::entity::Set;
+use sea_orm_migration::sea_orm::ActiveModelTrait;
 
 #[derive(DeriveMigrationName)]
 pub struct Migration;
@@ -13,16 +16,30 @@ impl MigrationTrait for Migration {
                     .add_column(
                         ColumnDef::new(Post::CreatedAt)
                             .timestamp_with_time_zone()
-                            .not_null(),
+                            .not_null()
+                            .extra(String::from("DEFAULT CURRENT_TIMESTAMP")),
                     )
                     .add_column(
                         ColumnDef::new(Post::UpdatedAt)
                             .timestamp_with_time_zone()
-                            .not_null(),
+                            .not_null()
+                            .extra(String::from("DEFAULT CURRENT_TIMESTAMP")),
                     )
                     .to_owned(),
             )
-            .await
+            .await?;
+
+        // シーディング
+        let db = manager.get_connection();
+        post::ActiveModel {
+            title: Set(String::from("title1")),
+            text: Set(String::from("text1")),
+            ..Default::default()
+        }
+        .insert(db)
+        .await?;
+
+        Ok(())
     }
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
