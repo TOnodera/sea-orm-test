@@ -1,3 +1,3 @@
-# Rust Webapp Tutorial  
-https://rust-webapp-tutorial.teruru.net/  
-↑これをやる。
+#  Sea Orm
+https://www.sea-ql.org/SeaORM/  
+↑ドキュメント見ながら試してみる。
